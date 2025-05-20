@@ -1,15 +1,12 @@
-from flask import Flask, render_template, request, send_file, redirect, url_for, after_this_request
+from flask import Flask, render_template, request, send_file, after_this_request
 import yt_dlp
 import os
 import uuid
-import logging
 
 app = Flask(__name__)
 
-# Setup download folder and logging
 DOWNLOAD_FOLDER = 'downloads'
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
-logging.basicConfig(level=logging.INFO)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
