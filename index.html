@@ -1,1 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pro Video Downloader</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1f2937;
+      color: #f1f5f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background-color: #111827;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+    }
+    input, select, button {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+    button {
+      background-color: #3b82f6;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #2563eb;
+    }
+    footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎬 Pro Video Downloader</h1>
+    <form method="post">
+      <label for="url">Paste Video or Playlist URL:</label>
+      <input type="text" name="url" id="url" required />
 
+      <label for="format">Choose Format:</label>
+      <select name="format" id="format">
+        <option value="mp4">mp4</option>
+        <option value="mp3">mp3</option>
+      </select>
+
+      <button type="submit">Download</button>
+    </form>
+    <p>Supported: YouTube, Instagram, TikTok, X, Facebook & more</p>
+    <footer>
+      <p>Owner: Asmat Akhtar (Professional Developer & Designer)</p>
+      <p>📧 mr.asmatbuneri@gmail.com </p>
+    </footer>
+  </div>
+</body>
+</html>
