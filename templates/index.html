@@ -1,74 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pro Video Downloader</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #1f2937;
-      color: #f1f5f9;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .container {
-      background-color: #111827;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-      text-align: center;
-      width: 90%;
-      max-width: 500px;
-    }
-    input, select, button {
-      padding: 10px;
-      margin: 10px 0;
-      width: 100%;
-      border-radius: 5px;
-      border: none;
-      font-size: 16px;
-    }
-    button {
-      background-color: #3b82f6;
-      color: white;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #2563eb;
-    }
-    footer {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #9ca3af;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Downloader</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 2rem auto; padding: 1rem; }
+        input[type="text"] { width: 100%; padding: 0.5rem; margin-bottom: 1rem; }
+        button { padding: 0.5rem 1rem; cursor: pointer; }
+        .format-item { padding: 0.5rem; background: #f0f0f0; margin-bottom: 0.5rem; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🎬 Pro Video Downloader</h1>
-    <form method="post">
-      <label for="url">Paste Video or Playlist URL:</label>
-      <input type="text" name="url" id="url" required />
+    <h1>Video Downloader</h1>
+    <input type="text" id="videoUrl" placeholder="Paste YouTube URL here">
+    <button id="fetchBtn">Fetch Video Info</button>
+    <div id="output"></div>
 
-      <label for="format">Choose Format:</label>
-      <select name="format" id="format">
-        <option value="mp4">mp4</option>
-        <option value="mp3">mp3</option>
-      </select>
+    <script>
+        const fetchBtn = document.getElementById('fetchBtn');
+        const videoUrlInput = document.getElementById('videoUrl');
+        const output = document.getElementById('output');
 
-      <button type="submit">Download</button>
-    </form>
-    <p>Supported: YouTube, Instagram, TikTok, X, Facebook & more</p>
-    <footer>
-      <p>Owner: Asmat Akhtar (Professional Developer & Designer)</p>
-      <p>📧 mr.asmatbuneri@gmail.com </p>
-    </footer>
-  </div>
+        fetchBtn.addEventListener('click', async () => {
+            const url = videoUrlInput.value.trim();
+            if (!url) {
+                alert('Please enter a video URL');
+                return;
+            }
+
+            output.innerHTML = 'Loading...';
+
+            try {
+                // Updated: Now points to your Flask backend route
+                const response = await fetch('/download-info', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    output.innerHTML = `<p style="color:red;">Error: ${data.error}</p>`;
+                    return;
+                }
+
+                let html = `<h2>${data.title}</h2><div class="formats">`;
+                data.formats.forEach(format => {
+                    html += `<div class="format-item">
+                        <strong>${format.ext.toUpperCase()}</strong> - ${format.resolution} - 
+                        <a href="${format.url}" target="_blank">Download</a>
+                    </div>`;
+                });
+                html += `</div>`;
+                output.innerHTML = html;
+
+            } catch (err) {
+                output.innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
+            }
+        });
+    </script>
 </body>
 </html>
